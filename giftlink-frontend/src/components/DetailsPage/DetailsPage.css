@@ -1,36 +1,48 @@
 /* Style for image placeholder */
 .image-placeholder-large {
-    /* Task 1 styling */
-    {{insert code here}}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px; /* Adjust height as needed */
+    background-color: #f0f0f0; /* Light gray background */
+    border: 1px dashed #ccc; /* Dashed border to indicate placeholder */
+    border-radius: 8px; /* Rounded corners */
 }
 
 /* Style for product image */
 .product-image-large {
-    /* Task 2 styling */
-    {{insert code here}}
+    max-width: 100%; /* Responsive width */
+    max-height: 100%; /* Maintain aspect ratio */
+    border-radius: 8px; /* Rounded corners */
+    object-fit: cover; /* Crop the image to fit */
 }
 
 /* Style for 'no image available' placeholder */
 .no-image-available-large {
-    /* Task 3 styling */
-    {{insert code here}}
+    font-size: 18px; /* Increase font size */
+    color: #888; /* Dark gray color */
+    text-align: center; /* Center the text */
 }
 
 /* Style for card header */
 .card-header {
-    /* Task 4 styling */
-    {{insert code here}}
+    background-color: #007bff; /* Bootstrap primary color */
+    padding: 15px; /* Padding for space */
+    border-radius: 8px 8px 0 0; /* Rounded top corners */
 }
 
 /* Style for details title */
 .details-title {
-    /* Task 5 styling */
-    {{insert code here}}
+    color: white; /* White text color */
+    font-size: 24px; /* Larger font size */
+    margin: 0; /* Remove margin */
 }
 
 /* Style for comments section */
 .comments-section {
-    /* Task 6 styling */
-    {{insert code here}}
+    margin-top: 20px; /* Space above the comments section */
+    padding: 10px; /* Padding for space inside the section */
+    background-color: #f9f9f9; /* Light background for comments */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
-

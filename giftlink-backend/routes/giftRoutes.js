@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const connectToDatabase = require('../models/db');
+const { ObjectId } = require('mongodb');
 
 // Health check route to verify API is working
 // router.get('/', (req, res) => {
@@ -28,41 +29,36 @@ router.get('', async (req, res) => {
 });
 
 // Fetch a gift by ID
-const { ObjectId } = require('mongodb'); // Use ObjectId instead of ObjectID
-
-router.get('/:_id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
-        const db = await connectToDatabase();
-        const collection = db.collection("gifts");
-        const id = req.params._id;
+        const id = req.params.id;
 
-        // Log the id received
-        console.log('Received ID:', id);
-
-        // Validate if the ID is a valid MongoDB ObjectId
-        if (!ObjectId.isValid(id)) {
-            return res.status(400).send('Invalid ID format');
+        if (!id || id.trim() === '') {
+            return res.status(400).json({ error: 'Invalid ID provided' });
         }
 
-        // Log the ObjectId conversion
-        const objectId = new ObjectId(id);
-        console.log('Converted ObjectId:', objectId);
+        const db = await connectToDatabase();
+        const collection = db.collection("gifts");
 
-        // Fetch the document by ObjectId
-        const gift = await collection.findOne({ _id: objectId });
+        let query;
+        if (ObjectId.isValid(id)) {
+            query = { _id: new ObjectId(id) };
+        } else {
+            query = { id: id };
+        }
+
+        const gift = await collection.findOne(query);
 
         if (!gift) {
-            return res.status(404).send('Gift not found');
+            return res.status(404).json({ error: 'Gift not found' });
         }
 
         res.json(gift);
     } catch (e) {
-        console.error('Error fetching gift:', e.message, e.stack);
-        res.status(500).send(`Error fetching gift: ${e.message}`);
+        console.error('Error fetching gift:', e);
+        res.status(500).json({ error: 'Error fetching gift', details: e.message });
     }
 });
-
-
 
 // Add a new gift
 router.post('/', async (req, res, next) => {

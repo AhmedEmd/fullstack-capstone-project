@@ -1,40 +1,34 @@
 const express = require('express');
 const router = express.Router();
 const connectToDatabase = require('../models/db');
+const { ObjectId } = require('mongodb');
 
 // Search for gifts
 router.get('/', async (req, res, next) => {
+    console.log('Received search request with query:', req.query);
     try {
-        // Task 1: Connect to MongoDB using connectToDatabase database. Remember to use the await keyword and store the connection in `db`
         const db = await connectToDatabase();
-
         const collection = db.collection("gifts");
 
-        // Initialize the query object
-        let query = {};
+        const { id } = req.query;
 
-        // Add the name filter to the query if the name parameter is not empty
-        if (req.query.name && req.query.name.trim() !== '') {
-            query.name = { $regex: req.query.name, $options: "i" }; // Using regex for partial match, case-insensitive
+        if (!id) {
+            return res.status(400).json({ error: 'ID parameter is required' });
         }
 
-        // Task 3: Add other filters to the query
-        if (req.query.category) {
-            query.category = req.query.category; // Match the exact category
-        }
-        if (req.query.condition) {
-            query.condition = req.query.condition; // Match the exact condition
-        }
-        if (req.query.age_years) {
-            query.age_years = { $lte: parseInt(req.query.age_years) }; // Less than or equal to age_years
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({ error: 'Invalid ID format' });
         }
 
-        // Task 4: Fetch filtered gifts using the find(query) method. Make sure to use await and store the result in the `gifts` constant
+        let query = { _id: new ObjectId(id) };
+
+        console.log('Executing MongoDB query:', JSON.stringify(query));
         const gifts = await collection.find(query).toArray();
-
+        console.log(`Found ${gifts.length} gifts`);
         res.json(gifts);
     } catch (e) {
-        next(e);
+        console.error('Error searching gifts:', e);
+        res.status(500).json({ error: 'Error searching gifts', details: e.message });
     }
 });
 

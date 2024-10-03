@@ -1,21 +1,29 @@
 import React from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from './components/LandingPage/LandingPage';
+import LoginPage from './components/LoginPage/LoginPage';
+import RegisterPage from './components/RegisterPage/RegisterPage';
 import MainPage from './components/MainPage/MainPage';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+import AboutPage from './components/AboutPage/AboutPage';
+import ContactPage from './components/ContactPage/ContactPage';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Navbar from './components/Navbar/Navbar';
 
 function App() {
-
   return (
-    <>
-        <Navbar/>
+    <Router>
+      <div className="App">
+        <Navbar />
         <Routes>
-          {/* the final code will not pass the products to every page, but each page will call the server API */}
-          <Route path="/" element={<MainPage />} />
-          <Route path="/app" element={<MainPage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/app" element={<PrivateRoute><MainPage /></PrivateRoute>} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
         </Routes>
-        </>
+      </div>
+    </Router>
   );
 }
 
