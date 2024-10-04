@@ -12,3 +12,29 @@
 .card {
     height: 100%; /* Make all cards the same height */
 }
+
+.gift-card {
+    height: 100%;
+    transition: transform 0.3s ease-in-out;
+}
+
+.gift-card:hover {
+    transform: translateY(-5px);
+}
+
+@media (max-width: 767px) {
+    .card-img-container {
+        height: 150px;
+    }
+}
+
+@media (max-width: 575px) {
+    .gift-card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Ensure consistent spacing between cards */
+.col-md-4 {
+    margin-bottom: 20px;
+}

@@ -46,3 +46,47 @@
     border-radius: 8px; /* Rounded corners */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
+
+.details-page {
+    padding: 20px;
+}
+
+.gift-title {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.gift-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.gift-image {
+    flex: 1;
+    min-width: 300px;
+}
+
+.gift-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.gift-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.gift-info p {
+    margin-bottom: 10px;
+}
+
+.loading, .error, .not-found {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+    color: #666;
+}

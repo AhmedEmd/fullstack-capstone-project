@@ -6,37 +6,15 @@ const connectToDatabase = require('../models/db');
 
 // Register route
 router.post('/register', async (req, res) => {
-  console.log('Received registration request:', req.body);
   try {
-    const db = await connectToDatabase();
     const { firstName, lastName, email, password } = req.body;
-    
-    // Check if user already exists
-    const existingUser = await db.collection('users').findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ error: 'User already exists' });
-    }
-
-    // Hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // Create new user
-    const newUser = {
-      firstName,
-      lastName,
-      email,
-      password: hashedPassword
-    };
-
-    await db.collection('users').insertOne(newUser);
-
-    // Create and assign a token
-    const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    // ... validation logic ...
+    const newUser = new User({ firstName, lastName, email, password });
+    await newUser.save();
+    const token = generateToken(newUser);
     res.status(201).json({ token });
   } catch (error) {
-    console.error('Error registering user:', error);
-    res.status(500).json({ error: 'Error registering user' });
+    res.status(400).json({ message: error.message });
   }
 });
 
@@ -64,6 +42,16 @@ router.post('/login', async (req, res) => {
   } catch (error) {
     console.error('Error logging in:', error);
     res.status(500).json({ error: 'Error logging in' });
+  }
+});
+
+// Profile route
+router.get('/profile', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
   }
 });
 

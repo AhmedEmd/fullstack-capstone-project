@@ -1,7 +1,10 @@
 .landing-page {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  color: #ffffff;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: linear-gradient(to bottom, #9333ea, #4f46e5);
-  color: white;
 }
 
 .header {
@@ -9,53 +12,75 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
+  height: 4rem;
 }
 
 .logo {
   display: flex;
   align-items: center;
   color: #fde047;
+  text-decoration: none;
   font-size: 1.5rem;
   font-weight: bold;
-  text-decoration: none;
 }
 
-.logo i {
+.gift-icon {
   margin-right: 0.5rem;
 }
 
-nav a {
+.nav a {
   color: white;
   text-decoration: none;
   margin-left: 1rem;
+  font-size: 0.875rem;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  padding-top: 3rem; /* Add more top padding */
+  padding-bottom: 2rem; /* Add bottom padding to balance */
 }
 
 .hero {
   text-align: center;
-  padding: 4rem 0;
-  position: relative;
-  overflow: hidden;
+  padding: 5rem 0; /* Ensure enough vertical padding */
+  width: 100%; /* Full width */
 }
 
 .hero h1 {
   font-size: 3rem;
+  font-weight: bold;
   margin-bottom: 1rem;
 }
 
 .hero p {
   font-size: 1.25rem;
-  color: #fef08a;
-  max-width: 600px;
+  color: #fde047;
+  max-width: 700px;
   margin: 0 auto 2rem;
 }
 
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
 .btn {
-  display: inline-block;
   padding: 0.75rem 1.5rem;
+  border: none;
   border-radius: 0.25rem;
-  text-decoration: none;
-  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
   transition: background-color 0.3s;
+  text-decoration: none;
 }
 
 .btn-primary {
@@ -67,81 +92,61 @@ nav a {
   background-color: #db2777;
 }
 
-.btn-outline {
-  border: 2px solid white;
+.btn-secondary {
+  background-color: transparent;
   color: white;
+  border: 1px solid white;
 }
 
-.btn-outline:hover {
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.featured-products {
   background-color: white;
   color: #4f46e5;
+  padding: 5rem 0; /* Add more vertical padding */
 }
 
-.featured-products, .features, .newsletter {
-  background-color: white;
-  color: #4f46e5;
-  padding: 4rem 0;
-}
-
-.featured-products h2, .features h2, .newsletter h2 {
+.featured-products h2 {
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 2.25rem;
   margin-bottom: 2rem;
 }
 
-.product-grid, .feature-grid {
+.product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .product-card {
   background-color: white;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  display: flex;
-  flex-direction: column;
 }
 
-.product-card:hover {
-  transform: translateY(-5px);
-}
-
-.product-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
+.product-image {
+  height: 200px;
   background-color: #f3f4f6;
-  border-radius: 8px 8px 0 0;
-}
-
-.product-icon i {
-  font-size: 3rem;
-  color: #4f46e5;
 }
 
 .product-info {
   padding: 1rem;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .product-info h3 {
-  margin-top: 0;
-  color: #1f2937;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
+  color: #4f46e5;
   margin-bottom: 0.5rem;
 }
 
-.product-info p {
-  color: #6b7280;
-  font-size: 0.9rem;
-  margin-bottom: 0;
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
 }
 
 .price {
@@ -157,13 +162,26 @@ nav a {
 .features {
   background: linear-gradient(to right, #fbbf24, #f59e0b);
   color: white;
+  padding: 5rem 0; /* Ensure enough vertical padding */
+}
+
+.features h2 {
+  text-align: center;
+  font-size: 2.25rem;
+  margin-bottom: 2rem;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
 }
 
 .feature {
   text-align: center;
 }
 
-.feature i {
+.feature-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
 }
@@ -171,13 +189,19 @@ nav a {
 .newsletter {
   background-color: #4f46e5;
   color: white;
+  padding: 4rem 0;
   text-align: center;
+  margin-top: 3rem; /* Add spacing between sections */
+}
+
+.newsletter h2 {
+  font-size: 2.25rem;
+  margin-bottom: 1rem;
 }
 
 .newsletter p {
-  color: #fef08a;
-  max-width: 600px;
-  margin: 0 auto 2rem;
+  color: #fde047;
+  margin-bottom: 2rem;
 }
 
 .newsletter-form {
@@ -188,7 +212,8 @@ nav a {
 
 .newsletter-form input {
   flex-grow: 1;
-  padding: 0.75rem;
+  padding: 0.5rem;
+  font-size: 1rem;
   border: none;
   border-radius: 0.25rem 0 0 0.25rem;
 }
@@ -197,21 +222,21 @@ nav a {
   border-radius: 0 0.25rem 0.25rem 0;
 }
 
-footer {
+.footer {
   background-color: #4338ca;
-  color: #fef08a;
-  padding: 1rem 0;
+  color: #fde047;
+  padding: 1.5rem 0;
   font-size: 0.875rem;
 }
 
-footer .container {
+.footer .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-footer nav a {
-  color: #fef08a;
+.footer nav a {
+  color: #fde047;
   text-decoration: none;
   margin-left: 1rem;
 }
@@ -222,121 +247,26 @@ footer nav a {
   padding: 0 1rem;
 }
 
-.cursor {
-  position: fixed;
-  width: 50px;
-  height: 50px;
-  border: 2px solid #4f46e5;
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  transition: all 0.1s ease;
-  z-index: 9999;
-  display: none;
-}
-
-.cursor::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 5px;
-  height: 5px;
-  background-color: #4f46e5;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-
-@keyframes rotateCursor {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+@media (max-width: 768px) {
+  .main-content {
+    padding-top: 1rem; /* Less padding for smaller screens */
   }
-  50% {
-    transform: translate(-50%, -50%) rotate(180deg) scale(1.2);
+
+  .hero h1 {
+    font-size: 2.5rem;
   }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg) scale(1);
+
+  .product-grid, .feature-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .newsletter-form {
+    flex-direction: column;
+  }
+
+  .newsletter-form input, .newsletter-form button {
+    width: 100%;
+    border-radius: 0.25rem;
+    margin-bottom: 0.5rem;
   }
 }
-
-@keyframes deformCursor {
-  0% {
-    border-radius: 50%;
-  }
-  25% {
-    border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
-  }
-  50% {
-    border-radius: 60% 40% 40% 60% / 60% 60% 40% 40%;
-  }
-  75% {
-    border-radius: 40% 60% 60% 40% / 60% 40% 40% 60%;
-  }
-  100% {
-    border-radius: 50%;
-  }
-}
-
-.cursor {
-  animation: rotateCursor 5s linear infinite, deformCursor 3s ease-in-out infinite;
-}
-
-.cursor-glow {
-  position: fixed;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-  display: none;
-  background: radial-gradient(circle, 
-    rgba(0, 255, 255, 0.6) 0%, 
-    rgba(0, 255, 0, 0.4) 40%, 
-    rgba(0, 0, 255, 0.2) 60%, 
-    rgba(0, 0, 255, 0) 100%
-  );
-  filter: blur(15px);
-  mix-blend-mode: screen;
-}
-
-@keyframes pulseGlow {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.8;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.2);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.8;
-  }
-}
-
-@keyframes deformGlow {
-  0% {
-    border-radius: 50%;
-  }
-  25% {
-    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-  }
-  50% {
-    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-  }
-  75% {
-    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-  }
-  100% {
-    border-radius: 50%;
-  }
-}
-
-.cursor-glow {
-  animation: 
-    pulseGlow 3s ease-in-out infinite,
-    deformGlow 5s ease-in-out infinite;
-}
-
-/* ... (keep other existing styles) ... */

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { urlConfig } from '../../config';
+import './DetailsPage.css';
 
 function DetailsPage() {
     const { id } = useParams();
@@ -28,18 +29,17 @@ function DetailsPage() {
         fetchGiftDetails();
     }, [id]);
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
-    if (!gift) return <div>Gift not found</div>;
+    if (loading) return <div className="loading">Loading...</div>;
+    if (error) return <div className="error">{error}</div>;
+    if (!gift) return <div className="not-found">Gift not found</div>;
 
     return (
-        <div className="container mt-4">
-            <h1 className="mb-4">{gift.name}</h1>
-            <div className="row">
-                <div className="col-md-6">
+        <div className="details-page">
+            <h1 className="gift-title">{gift.name}</h1>
+            <div className="gift-details">
+                <div className="gift-image">
                     <img 
-                        src={`${process.env.PUBLIC_URL}${gift.image}`} 
-                        className="img-fluid" 
+                        src={`${urlConfig.backendUrl}${gift.image}`} 
                         alt={gift.name}
                         onError={(e) => {
                             e.target.onerror = null;
@@ -47,7 +47,7 @@ function DetailsPage() {
                         }}
                     />
                 </div>
-                <div className="col-md-6">
+                <div className="gift-info">
                     <p><strong>Description:</strong> {gift.description}</p>
                     <p><strong>Category:</strong> {gift.category}</p>
                     <p><strong>Condition:</strong> {gift.condition}</p>
