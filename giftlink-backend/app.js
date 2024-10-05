@@ -6,6 +6,7 @@ const cors = require('cors');
 const pinoLogger = require('./logger');
 const connectToDatabase = require('./models/db');
 const { loadData } = require("./util/import-mongo/index");
+const { MongoClient } = require('mongodb');
 
 const app = express();
 app.use("*", cors());
@@ -16,10 +17,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Connect to MongoDB; we just do this one time
 const mongoUri = process.env.MONGO_URL;
-
-if (!mongoUri) {
-    throw new Error("MongoDB connection string is missing in the .env file");
-}
+MongoClient.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 app.use(express.json());
 
@@ -46,8 +46,12 @@ app.use(pinoHttp({ logger }));
 
 // Global Error Handler
 app.use((err, req, res, next) => {
-    console.error(err);
-    res.status(500).send('Internal Server Error');
+    console.error('Global error handler:', err);
+    res.status(500).json({
+        error: 'Internal Server Error',
+        message: err.message,
+        stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack
+    });
 });
 
 // Catch-all route to serve index.html for any unmatched routes
@@ -63,6 +67,6 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
-
 // Serve static files from the 'public/images' directory
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
+

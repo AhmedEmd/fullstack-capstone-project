@@ -1,0 +1,51 @@
+.aboutPage {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    color: #4f46e5;
+}
+
+.aboutPage h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.aboutPage h2 {
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.aboutPage p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.missionList {
+    list-style-type: disc;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+
+.missionList li {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .aboutPage {
+        padding: 1rem;
+    }
+
+    .aboutPage h1 {
+        font-size: 2rem;
+    }
+
+    .aboutPage h2 {
+        font-size: 1.5rem;
+    }
+}

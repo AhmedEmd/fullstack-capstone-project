@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const connectToDatabase = require('../models/db');
 const { ObjectId } = require('mongodb');
+const authMiddleware = require('../middleware/auth');
+const profanityFilter = require('../utils/profanityFilter');
 
 // Health check route to verify API is working
 // router.get('/', (req, res) => {
@@ -76,6 +78,70 @@ router.post('/', async (req, res, next) => {
         res.status(201).json(gift.ops[0]);
     } catch (e) {
         next(e);
+    }
+});
+
+// Add comment to a gift
+router.post('/:id/comments', authMiddleware, async (req, res) => {
+    try {
+        const db = await connectToDatabase();
+        const giftId = req.params.id;
+        const { content } = req.body;
+        const userId = req.user._id;
+
+        // Silently return success if comment is inappropriate or too short
+        if (!content || content.trim().length < 5 || profanityFilter.isProfane(content)) {
+            return res.status(201).json({ message: 'Comment processed' });
+        }
+
+        const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const newComment = {
+            _id: new ObjectId(),
+            author: `${user.firstName} ${user.lastName}`,
+            content,
+            createdAt: new Date()
+        };
+
+        const result = await db.collection('comments').insertOne({
+            giftId: new ObjectId(giftId),
+            ...newComment
+        });
+
+        if (!result.insertedId) {
+            return res.status(500).json({ error: 'Failed to add comment' });
+        }
+
+        res.status(201).json(newComment);
+    } catch (error) {
+        console.error('Error adding comment:', error);
+        res.status(500).json({ error: 'Error adding comment', details: error.message });
+    }
+});
+
+// Get comments for a gift
+router.get('/:id/comments', authMiddleware, async (req, res) => {
+    try {
+        const db = await connectToDatabase();
+        const giftId = req.params.id;
+
+        const comments = await db.collection('comments')
+            .find({ giftId: new ObjectId(giftId) })
+            .sort({ createdAt: -1 })
+            .toArray();
+
+        // Filter appropriate comments silently
+        const appropriateComments = comments.filter(comment => {
+            return !profanityFilter.isProfane(comment.content) && comment.content.length >= 5;
+        });
+
+        res.json(appropriateComments);
+    } catch (error) {
+        console.error('Error fetching comments:', error);
+        res.status(500).json({ error: 'Error fetching comments' });
     }
 });
 

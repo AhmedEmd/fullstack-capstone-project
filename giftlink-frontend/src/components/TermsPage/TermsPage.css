@@ -1,0 +1,21 @@
+.terms-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.terms-page h1 {
+  color: #4f46e5;
+  margin-bottom: 20px;
+}
+
+.terms-content h2 {
+  color: #4f46e5;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.terms-content p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+}

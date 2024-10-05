@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { urlConfig } from '../../config';
-import './RegisterPage.css';
+import styles from './RegisterPage.module.css';
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -19,8 +19,10 @@ export default function RegisterPage() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setError('');
     try {
-      const response = await fetch(`${urlConfig.backendUrl}/auth/register`, {
+      console.log('Sending registration data:', formData);
+      const response = await fetch(`${urlConfig.backendUrl}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,12 +30,13 @@ export default function RegisterPage() {
         body: JSON.stringify(formData),
       });
 
+      const data = await response.json();
+      console.log('Server response:', data);
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Registration failed');
+        throw new Error(data.message || 'Registration failed');
       }
 
-      const data = await response.json();
       localStorage.setItem('token', data.token);
       navigate('/app');
     } catch (err) {
@@ -42,13 +45,13 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="register-page">
+    <div className={styles.registerPage}>
       <h1>Register</h1>
-      <div className="container">
+      <div className={styles.container}>
         <p>Create your account to start using GiftLink.</p>
-        {error && <p className="error">{error}</p>}
+        {error && <p className={styles.error}>{error}</p>}
         <form onSubmit={handleRegister}>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="firstName">First Name</label>
             <input
               type="text"
@@ -59,7 +62,7 @@ export default function RegisterPage() {
               required
             />
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="lastName">Last Name</label>
             <input
               type="text"
@@ -70,7 +73,7 @@ export default function RegisterPage() {
               required
             />
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="email">Email</label>
             <input
               type="email"
@@ -81,7 +84,7 @@ export default function RegisterPage() {
               required
             />
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="password">Password</label>
             <input
               type="password"
@@ -92,9 +95,9 @@ export default function RegisterPage() {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary">Register</button>
+          <button type="submit" className={styles.btnPrimary}>Register</button>
         </form>
-        <p className="login-link">
+        <p className={styles.loginLink}>
           Already have an account? <Link to="/login">Login here</Link>
         </p>
       </div>

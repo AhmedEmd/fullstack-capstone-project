@@ -1,0 +1,276 @@
+.landingPage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #9333ea, #4f46e5);
+  color: white;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  height: 4rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  color: #fde047;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.giftIcon {
+  margin-right: 0.5rem;
+}
+
+.nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.navLink {
+  color: white;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.navLink:hover {
+  text-decoration: underline;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.hero {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.heroContent {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.heroTitle {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.heroText {
+  font-size: 1.25rem;
+  color: #fde047;
+  margin-bottom: 2rem;
+}
+
+.ctaButtons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.btnPrimary {
+  background-color: #ec4899;
+  color: white;
+}
+
+.btnPrimary:hover {
+  background-color: #db2777;
+}
+
+.btnOutline {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+}
+
+.btnOutline:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btnSmall {
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+}
+
+.featuredProducts {
+  background-color: white;
+  color: #4f46e5;
+  padding: 3rem 0;
+}
+
+.sectionTitle {
+  font-size: 2.25rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.productCard {
+  background-color: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.productImage {
+  height: 200px;
+  background-color: #f3f4f6;
+}
+
+.productInfo {
+  padding: 1rem;
+}
+
+.productTitle {
+  font-size: 1.25rem;
+  color: #4f46e5;
+  margin-bottom: 0.5rem;
+}
+
+.productDescription {
+  color: #6b7280;
+}
+
+.productFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.productPrice {
+  font-weight: bold;
+  color: #4f46e5;
+}
+
+.features {
+  background: linear-gradient(to right, #fbbf24, #f59e0b);
+  color: white;
+  padding: 3rem 0;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.feature {
+  text-align: center;
+}
+
+.featureIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.featureTitle {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.featureText {
+  color: #fef3c7;
+}
+
+.newsletter {
+  background-color: #4f46e5;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.newsletterText {
+  color: #fde047;
+  margin-bottom: 1.5rem;
+}
+
+.newsletterForm {
+  display: flex;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.input {
+  flex-grow: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.25rem 0 0 0.25rem;
+}
+
+.footer {
+  background-color: #4338ca;
+  color: #fde047;
+  padding: 1.5rem 0;
+  font-size: 0.875rem;
+}
+
+.footerText {
+  margin-bottom: 0.5rem;
+}
+
+.footerNav {
+  display: flex;
+  gap: 1rem;
+}
+
+.footerLink {
+  color: #fde047;
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+
+  .newsletterForm {
+    flex-direction: column;
+  }
+
+  .input, .newsletterForm .btn {
+    width: 100%;
+    border-radius: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer .container {
+    flex-direction: column;
+    align-items: center;
+  }
+}

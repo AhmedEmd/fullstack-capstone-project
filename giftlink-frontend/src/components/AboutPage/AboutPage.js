@@ -1,44 +1,35 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGift, faHeart, faHandshake } from '@fortawesome/free-solid-svg-icons';
-import './AboutPage.css';
+import styles from './AboutPage.module.css';
 
 export default function AboutPage() {
   return (
-    <div className="about-page">
-      <header className="about-header">
-        <h1>About GiftLink</h1>
-      </header>
-      <main className="about-content">
-        <section className="about-section">
-          <h2>Our Mission</h2>
-          <p>At GiftLink, we believe in the power of thoughtful gifting. Our mission is to connect people through meaningful presents, making every occasion special and memorable.</p>
-        </section>
-        <section className="about-section">
-          <h2>Our Values</h2>
-          <div className="values-grid">
-            <div className="value-item">
-              <FontAwesomeIcon icon={faGift} className="value-icon" />
-              <h3>Thoughtfulness</h3>
-              <p>We curate gifts that show you care.</p>
-            </div>
-            <div className="value-item">
-              <FontAwesomeIcon icon={faHeart} className="value-icon" />
-              <h3>Connection</h3>
-              <p>We bring people closer through gifting.</p>
-            </div>
-            <div className="value-item">
-              <FontAwesomeIcon icon={faHandshake} className="value-icon" />
-              <h3>Quality</h3>
-              <p>We ensure every gift meets high standards.</p>
-            </div>
-          </div>
-        </section>
-        <section className="about-section">
-          <h2>Our Story</h2>
-          <p>Founded in 2023, GiftLink started with a simple idea: to make gifting easier and more meaningful. Since then, we've helped thousands of people find the perfect gifts for their loved ones.</p>
-        </section>
-      </main>
+    <div className={styles.aboutPage}>
+      <h1>About GiftLink</h1>
+      <section>
+        <h2>Our Story</h2>
+        <p>GiftLink was founded in 2024 with a simple mission: to make gift-giving a joyful and meaningful experience for everyone. We believe that the perfect gift has the power to strengthen relationships and create lasting memories.</p>
+      </section>
+      <section>
+        <h2>Our Mission</h2>
+        <p>At GiftLink, we're committed to:</p>
+        <ul className={styles.missionList}>
+          <li>Curating a diverse selection of high-quality gifts</li>
+          <li>Providing exceptional customer service</li>
+          <li>Simplifying the gift-giving process</li>
+          <li>Supporting local artisans and sustainable practices</li>
+        </ul>
+      </section>
+      <section>
+        <h2>Our Team</h2>
+        <p>We're a passionate group of gift enthusiasts, tech experts, and customer service professionals. Our diverse team brings together years of experience in e-commerce, product curation, and customer satisfaction.</p>
+      </section>
+      <section>
+        <h2>Connect With Us</h2>
+        <p>We'd love to hear from you! Whether you have questions, feedback, or just want to say hello, feel free to reach out.</p>
+        <p>Email: info@giftlink.com</p>
+        <p>Phone: +1 (555) 123-4567</p>
+        <p>Address: 123 Gift Street, Present City, GL 12345</p>
+      </section>
     </div>
   );
 }

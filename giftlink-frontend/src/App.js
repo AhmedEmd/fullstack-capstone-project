@@ -23,23 +23,28 @@ function AppContent() {
   return (
     <div className="App">
       {!isLandingPage && <Navbar />}
-      <div className="page-content">
+      {isLandingPage ? (
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/app" element={<MainPage />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/details/:id" element={<DetailsPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/learn-more" element={<LearnMore />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/terms" element={<TermsPage />} />
-          <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="*" element={<NotFoundPage />} />
         </Routes>
-      </div>
+      ) : (
+        <div className="page-content">
+          <Routes>
+            <Route path="/app" element={<MainPage />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/details/:id" element={<DetailsPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/learn-more" element={<LearnMore />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </div>
+      )}
     </div>
   );
 }
