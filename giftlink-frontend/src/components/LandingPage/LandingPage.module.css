@@ -13,16 +13,22 @@
   align-items: center;
   padding: 1rem 1.5rem;
   height: 4rem;
+  background-color: white;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  color: #fde047;
+  color: #4f46e5;
   text-decoration: none;
   font-size: 1.5rem;
   font-weight: bold;
 }
+
+/* Remove this rule if it exists */
+/* .logo:hover {
+  text-decoration: underline;
+} */
 
 .giftIcon {
   margin-right: 0.5rem;
@@ -34,7 +40,7 @@
 }
 
 .navLink {
-  color: white;
+  color: #4f46e5;
   text-decoration: none;
   font-size: 0.875rem;
 }
@@ -59,6 +65,40 @@
 .hero {
   text-align: center;
   padding: 3rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.blob {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+  border-radius: 50%;
+  filter: blur(20px);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  transform: translate(-50%, -50%);
+  animation: rotate 10s linear infinite, scale 5s ease-in-out infinite alternate;
+}
+
+@keyframes rotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
 }
 
 .heroContent {
@@ -141,15 +181,33 @@
   border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease; /* Add smooth transition */
+}
+
+.productCard:hover {
+  transform: translateY(-5px); /* Move up 5 pixels on hover */
 }
 
 .productImage {
-  height: 200px;
+  height: 150px;
   background-color: #f3f4f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.productIcon {
+  font-size: 3rem;
+  color: #4f46e5;
 }
 
 .productInfo {
   padding: 1rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .productTitle {
@@ -160,6 +218,7 @@
 
 .productDescription {
   color: #6b7280;
+  flex-grow: 1;
 }
 
 .productFooter {

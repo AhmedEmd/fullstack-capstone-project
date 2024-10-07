@@ -70,3 +70,7 @@ app.listen(port, () => {
 // Serve static files from the 'public/images' directory
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
+// Profile API
+const profileRoutes = require('./routes/profileRoutes');
+app.use('/api/profile', profileRoutes);
+

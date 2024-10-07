@@ -1,10 +1,45 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGift, faShoppingCart, faTruck, faCreditCard } from '@fortawesome/free-solid-svg-icons';
 import styles from './LandingPage.module.css';
 
 export default function LandingPage() {
+  const heroRef = useRef(null);
+  const blobRef = useRef(null);
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    const blob = blobRef.current;
+
+    const handleMouseMove = (e) => {
+      const { left, top, width, height } = hero.getBoundingClientRect();
+      const x = e.clientX - left;
+      const y = e.clientY - top;
+
+      blob.style.left = `${x}px`;
+      blob.style.top = `${y}px`;
+    };
+
+    const handleMouseEnter = () => {
+      blob.style.opacity = '1';
+    };
+
+    const handleMouseLeave = () => {
+      blob.style.opacity = '0';
+    };
+
+    hero.addEventListener('mousemove', handleMouseMove);
+    hero.addEventListener('mouseenter', handleMouseEnter);
+    hero.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      hero.removeEventListener('mousemove', handleMouseMove);
+      hero.removeEventListener('mouseenter', handleMouseEnter);
+      hero.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
+
   return (
     <div className={styles.landingPage}>
       <header className={styles.header}>
@@ -19,7 +54,8 @@ export default function LandingPage() {
         </nav>
       </header>
       <main className={styles.main}>
-        <section className={styles.hero}>
+        <section className={styles.hero} ref={heroRef}>
+          <div className={styles.blob} ref={blobRef}></div>
           <div className={styles.container}>
             <div className={styles.heroContent}>
               <h1 className={styles.heroTitle}>Find the Perfect Gift, Every Time</h1>
@@ -37,16 +73,18 @@ export default function LandingPage() {
           <div className={styles.container}>
             <h2 className={styles.sectionTitle}>Featured Products</h2>
             <div className={styles.productGrid}>
-              {[1, 2, 3, 4].map((i) => (
+              {[{ icon: faShoppingCart, title: "Unique Handcrafted Jewelry", description: "Exquisite pieces that tell a story" },
+                { icon: faTruck, title: "Personalized Photo Albums", description: "Capture memories in style" },
+                { icon: faCreditCard, title: "Gourmet Food Baskets", description: "A feast for the senses" },
+                { icon: faGift, title: "Smart Home Gadgets", description: "Bringing the future home" }
+              ].map((product, i) => (
                 <div key={i} className={styles.productCard}>
-                  <div className={styles.productImage}></div>
+                  <div className={styles.productImage}>
+                    <FontAwesomeIcon icon={product.icon} className={styles.productIcon} />
+                  </div>
                   <div className={styles.productInfo}>
-                    <h3 className={styles.productTitle}>Amazing Gift {i}</h3>
-                    <p className={styles.productDescription}>A perfect gift for any occasion</p>
-                    <div className={styles.productFooter}>
-                      <span className={styles.productPrice}>$29.99</span>
-                      <button className={`${styles.btn} ${styles.btnSmall}`}>Add to Cart</button>
-                    </div>
+                    <h3 className={styles.productTitle}>{product.title}</h3>
+                    <p className={styles.productDescription}>{product.description}</p>
                   </div>
                 </div>
               ))}
