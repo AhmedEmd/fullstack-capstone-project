@@ -1,42 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGift } from '@fortawesome/free-solid-svg-icons';
+import React, { useContext } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { AuthContext } from '../../App';
 import './Navbar.css';
 
-export default function Navbar() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        const checkLoginStatus = () => {
-            const token = localStorage.getItem('token');
-            setIsLoggedIn(!!token);
-        };
-
-        checkLoginStatus();
-        window.addEventListener('storage', checkLoginStatus);
-
-        return () => {
-            window.removeEventListener('storage', checkLoginStatus);
-        };
-    }, []);
+function Navbar() {
+    const { isAuthenticated } = useContext(AuthContext);
+    const location = useLocation();
+    const isLandingPage = location.pathname === '/';
 
     return (
-        <nav className="navbar">
-            <Link to="/" className="navbar-brand">
-                <FontAwesomeIcon icon={faGift} className="gift-icon" />
-                <span>GiftLink</span>
-            </Link>
-            <div className="navbar-links">
-                <Link to="/app">Shop</Link>
-                <Link to="/about">About</Link>
-                <Link to="/contact">Contact</Link>
-                {isLoggedIn ? (
-                    <Link to="/profile">My Profile</Link>
-                ) : (
-                    <Link to="/login">Login</Link>
-                )}
+        <nav className={`navbar navbar-expand-lg ${isLandingPage ? 'navbar-landing' : 'navbar-default'}`}>
+            <Link className="navbar-brand" to="/">GiftLink</Link>
+            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarNav">
+                <ul className="navbar-nav ml-auto">
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/app">Home</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/about">About</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/contact">Contact</Link>
+                    </li>
+                    {isAuthenticated ? (
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/profile">My Profile</Link>
+                        </li>
+                    ) : (
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/login">Login</Link>
+                        </li>
+                    )}
+                </ul>
             </div>
         </nav>
     );
 }
+
+export default Navbar;
