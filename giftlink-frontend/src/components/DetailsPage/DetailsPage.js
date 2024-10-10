@@ -20,7 +20,7 @@ function DetailsPage() {
         } else {
             navigate('/login');
         }
-    }, [id, navigate]);
+    }, [id, navigate, fetchGiftDetails]);
 
     const fetchGiftDetails = async (token) => {
         setLoading(true);

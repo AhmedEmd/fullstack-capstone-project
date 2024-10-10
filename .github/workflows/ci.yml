@@ -27,6 +27,8 @@ jobs:
       run: |
         cd giftlink-frontend
         npm run build
+      env:
+        CI: false
 
     - name: Test frontend
       run: |

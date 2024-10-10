@@ -19,7 +19,7 @@ export default function MainPage() {
         } else {
             navigate('/login');
         }
-    }, [navigate]);
+    }, [navigate, fetchGifts]);
 
     const fetchGifts = async (token) => {
         setIsLoading(true);

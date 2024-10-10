@@ -16,7 +16,7 @@ export default function Profile() {
 
   useEffect(() => {
     fetchProfile();
-  }, [navigate]);
+  }, [fetchProfile]);
 
   const fetchProfile = async () => {
     const token = localStorage.getItem('token');
