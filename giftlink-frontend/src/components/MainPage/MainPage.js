@@ -19,9 +19,9 @@ export default function MainPage() {
         } else {
             navigate('/login');
         }
-    }, [navigate]);
+    }, [navigate, fetchGifts]); // Add fetchGifts to the dependency array
 
-    const fetchGifts = async (token) => {
+    const fetchGifts = React.useCallback(async (token) => {
         setIsLoading(true);
         try {
             const response = await fetch(`${urlConfig.backendUrl}/api/gifts`, {
@@ -45,7 +45,7 @@ export default function MainPage() {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [navigate]); // Add dependencies here
 
     const handleSearch = async (e) => {
         e.preventDefault();

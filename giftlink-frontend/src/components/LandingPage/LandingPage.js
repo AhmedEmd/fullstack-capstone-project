@@ -13,7 +13,7 @@ export default function LandingPage() {
     const blob = blobRef.current;
 
     const handleMouseMove = (e) => {
-      const { left, top, width, height } = hero.getBoundingClientRect();
+      const { left, top } = hero.getBoundingClientRect();
       const x = e.clientX - left;
       const y = e.clientY - top;
 
