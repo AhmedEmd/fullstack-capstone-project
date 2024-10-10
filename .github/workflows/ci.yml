@@ -22,6 +22,7 @@ jobs:
       run: |
         cd giftlink-frontend
         npm ci
+        npm install @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome
 
     - name: Build frontend
       run: |
