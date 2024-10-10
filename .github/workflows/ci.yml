@@ -48,6 +48,37 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
+    - name: Create Dockerfiles if not exist
+      run: |
+        # Create frontend Dockerfile if it doesn't exist
+        if [ ! -f giftlink-frontend/Dockerfile ]; then
+          cat << EOF > giftlink-frontend/Dockerfile
+        FROM node:18-alpine AS build
+        WORKDIR /app
+        COPY package*.json ./
+        RUN npm install
+        COPY . .
+        RUN npm run build
+        FROM nginx:stable-alpine
+        COPY --from=build /app/build /usr/share/nginx/html
+        EXPOSE 80
+        CMD ["nginx", "-g", "daemon off;"]
+        EOF
+        fi
+
+        # Create backend Dockerfile if it doesn't exist
+        if [ ! -f giftlink-backend/Dockerfile ]; then
+          cat << EOF > giftlink-backend/Dockerfile
+        FROM node:18-alpine
+        WORKDIR /app
+        COPY package*.json ./
+        RUN npm install
+        COPY . .
+        EXPOSE 3060
+        CMD ["node", "app.js"]
+        EOF
+        fi
+
     - name: Create docker-compose.yml
       run: |
         cat << EOF > docker-compose.yml
