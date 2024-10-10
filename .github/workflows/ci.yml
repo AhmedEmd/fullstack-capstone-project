@@ -26,12 +26,12 @@ jobs:
     - name: Build frontend
       run: |
         cd giftlink-frontend
-        CI=false npm run build
+        npm run build
 
     - name: Test frontend
       run: |
         cd giftlink-frontend
-        CI=true npm test -- --passWithNoTests
+        npm test
 
     - name: Install dependencies for backend
       run: |

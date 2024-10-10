@@ -16,9 +16,9 @@ export default function Profile() {
 
   useEffect(() => {
     fetchProfile();
-  }, [fetchProfile]); // Add fetchProfile to the dependency array
+  }, [navigate]);
 
-  const fetchProfile = React.useCallback(async () => {
+  const fetchProfile = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
       navigate('/login');
@@ -39,13 +39,12 @@ export default function Profile() {
       const data = await response.json();
       setProfile(data);
       setFormData(data);
-    } catch (error) {
-      console.error('Error fetching profile:', error);
-      setError('Failed to fetch profile. Please try again.');
+    } catch (err) {
+      setError(err.message);
     } finally {
       setIsLoading(false);
     }
-  }, [navigate]); // Add dependencies here
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
