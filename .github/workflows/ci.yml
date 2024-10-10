@@ -11,46 +11,49 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Use Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: '18'
 
-    - name: Clear npm cache
-      run: npm cache clean --force
-
-    - name: Install dependencies for frontend
+    # Install dependencies for frontend
+    - name: Install frontend dependencies
       run: |
         cd giftlink-frontend
-        npm install
+        npm ci
 
+    # Build the frontend
     - name: Build frontend
       run: |
         cd giftlink-frontend
         CI=false npm run build
 
+    # Test the frontend
     - name: Test frontend
       run: |
         cd giftlink-frontend
         CI=true npm test -- --passWithNoTests
 
-    - name: Install dependencies for backend
+    # Install dependencies for backend
+    - name: Install backend dependencies
       run: |
         cd giftlink-backend
         npm ci
 
+    # Test the backend
     - name: Test backend
       run: |
         cd giftlink-backend
         npm test
 
-    - name: Build Docker images
-      run: docker-compose build
+    # Build and run Docker containers
+    - name: Build and run Docker containers
+      run: |
+        docker-compose build
+        docker-compose up -d
 
-    - name: Run Docker containers
-      run: docker-compose up -d
-
+    # Check running Docker containers
     - name: Check running containers
       run: docker ps -a
