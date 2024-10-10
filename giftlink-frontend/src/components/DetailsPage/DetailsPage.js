@@ -20,9 +20,9 @@ function DetailsPage() {
         } else {
             navigate('/login');
         }
-    }, [id, navigate]);
+    }, [id, navigate, fetchGiftDetails]); // Add fetchGiftDetails to the dependency array
 
-    const fetchGiftDetails = async (token) => {
+    const fetchGiftDetails = React.useCallback(async (token) => {
         setLoading(true);
         try {
             const response = await fetch(`${urlConfig.backendUrl}/api/gifts/${id}`, {
@@ -57,7 +57,7 @@ function DetailsPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [id, navigate]); // Add dependencies here
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
