@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-test:
+  build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -48,82 +48,58 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
-    - name: Create Dockerfiles if not exist
+    - name: Build and push frontend Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: ./giftlink-frontend
+        push: false
+        tags: giftlink-frontend:latest
+        outputs: type=docker,dest=/tmp/frontend-image.tar
+
+    - name: Build and push backend Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: ./giftlink-backend
+        push: false
+        tags: giftlink-backend:latest
+        outputs: type=docker,dest=/tmp/backend-image.tar
+
+    - name: Install IBM Cloud CLI
       run: |
-        # Create frontend Dockerfile if it doesn't exist
-        if [ ! -f giftlink-frontend/Dockerfile ]; then
-          cat << EOF > giftlink-frontend/Dockerfile
-        FROM node:18-alpine AS build
-        WORKDIR /app
-        COPY package*.json ./
-        RUN npm install
-        COPY . .
-        RUN npm run build
-        FROM nginx:stable-alpine
-        COPY --from=build /app/build /usr/share/nginx/html
-        EXPOSE 80
-        CMD ["nginx", "-g", "daemon off;"]
-        EOF
-        fi
+        curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
+        ibmcloud --version
+        ibmcloud config --check-version=false
+        ibmcloud plugin install -f code-engine
 
-        # Create backend Dockerfile if it doesn't exist
-        if [ ! -f giftlink-backend/Dockerfile ]; then
-          cat << EOF > giftlink-backend/Dockerfile
-        FROM node:18-alpine
-        WORKDIR /app
-        COPY package*.json ./
-        RUN npm install
-        COPY . .
-        EXPOSE 3060
-        CMD ["node", "app.js"]
-        EOF
-        fi
-
-    - name: Create docker-compose.yml
+    - name: Authenticate with IBM Cloud CLI
       run: |
-        cat << EOF > docker-compose.yml
-        version: '3.8'
+        ibmcloud login --apikey "${IBM_CLOUD_API_KEY}" -r "${IBM_CLOUD_REGION}" -g "${IBM_CLOUD_RESOURCE_GROUP}"
+        ibmcloud target -r "${IBM_CLOUD_REGION}" -g "${IBM_CLOUD_RESOURCE_GROUP}"
+      env:
+        IBM_CLOUD_API_KEY: ${{ secrets.IBM_CLOUD_API_KEY }}
+        IBM_CLOUD_REGION: ${{ secrets.IBM_CLOUD_REGION }}
+        IBM_CLOUD_RESOURCE_GROUP: ${{ secrets.IBM_CLOUD_RESOURCE_GROUP }}
 
-        services:
-          frontend:
-            build:
-              context: ./giftlink-frontend
-              dockerfile: Dockerfile
-            ports:
-              - "80:80"
-            depends_on:
-              - backend
-
-          backend:
-            build:
-              context: ./giftlink-backend
-              dockerfile: Dockerfile
-            ports:
-              - "3060:3060"
-            environment:
-              - MONGO_URL=\${MONGO_URL}
-            depends_on:
-              - mongodb
-
-          mongodb:
-            image: mongo:latest
-            ports:
-              - "27017:27017"
-            volumes:
-              - mongodb_data:/data/db
-
-        volumes:
-          mongodb_data:
-        EOF
-
-    - name: Build Docker images
+    - name: Deploy to IBM Code Engine
       run: |
-        ls -la
-        cat docker-compose.yml
-        docker compose build
+        ibmcloud ce project select --name "${CODE_ENGINE_PROJECT}"
+        
+        # Deploy frontend
+        ibmcloud ce application create --name "${FRONTEND_APP_NAME}" --image giftlink-frontend:latest --build-source ./giftlink-frontend --port 80
+        
+        # Deploy backend
+        ibmcloud ce application create --name "${BACKEND_APP_NAME}" --image giftlink-backend:latest --build-source ./giftlink-backend --port 3060
+      env:
+        CODE_ENGINE_PROJECT: ${{ secrets.CODE_ENGINE_PROJECT }}
+        FRONTEND_APP_NAME: ${{ secrets.FRONTEND_APP_NAME }}
+        BACKEND_APP_NAME: ${{ secrets.BACKEND_APP_NAME }}
 
-    - name: Run Docker containers
-      run: docker compose up -d
-
-    - name: Check running containers
-      run: docker ps -a
+    - name: Get application URLs
+      run: |
+        FRONTEND_URL=$(ibmcloud ce application get --name "${FRONTEND_APP_NAME}" --output url)
+        BACKEND_URL=$(ibmcloud ce application get --name "${BACKEND_APP_NAME}" --output url)
+        echo "Frontend is accessible at: ${FRONTEND_URL}"
+        echo "Backend is accessible at: ${BACKEND_URL}"
+      env:
+        FRONTEND_APP_NAME: ${{ secrets.FRONTEND_APP_NAME }}
+        BACKEND_APP_NAME: ${{ secrets.BACKEND_APP_NAME }}
