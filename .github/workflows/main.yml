@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies for frontend
+      run: |
+        cd giftlink-frontend
+        npm ci
+
+    - name: Build frontend
+      run: |
+        cd giftlink-frontend
+        npm run build
+
+    - name: Test frontend
+      run: |
+        cd giftlink-frontend
+        npm test
+
+    - name: Install dependencies for backend
+      run: |
+        cd giftlink-backend
+        npm ci
+
+    - name: Test backend
+      run: |
+        cd giftlink-backend
+        npm test
+
+    - name: Build Docker images
+      run: docker-compose build
+
+    - name: Run Docker containers
+      run: docker-compose up -d
+
+    - name: Check running containers
+      run: docker ps -a
