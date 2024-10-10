@@ -29,11 +29,11 @@ jobs:
       - name: List Frontend Directory Contents
         run: ls -la giftlink-frontend/
 
-      # 4. Install Frontend Dependencies Using npm ci
+      # 4. Install Frontend Dependencies Using npm install
       - name: Install Frontend Dependencies
         run: |
           cd giftlink-frontend
-          npm ci
+          npm install
 
       # 5. Build Frontend
       - name: Build Frontend
