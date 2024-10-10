@@ -51,6 +51,15 @@ web_modules/
 # TypeScript cache
 *.tsbuildinfo
 
+node_modules
+npm-debug.log
+Dockerfile
+docker-compose.yml
+.git
+.gitignore
+.env
+
+
 # Optional npm cache directory
 .npm
 
