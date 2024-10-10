@@ -45,11 +45,14 @@ jobs:
         cd giftlink-backend
         npm test
 
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
     - name: Build Docker images
-      run: docker-compose build
+      run: docker compose build
 
     - name: Run Docker containers
-      run: docker-compose up -d
+      run: docker compose up -d
 
     - name: Check running containers
       run: docker ps -a
