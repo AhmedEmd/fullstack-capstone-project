@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { urlConfig } from '../../config';
 import './DetailsPage.css';
@@ -13,16 +13,7 @@ function DetailsPage() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            fetchGiftDetails(token);
-        } else {
-            navigate('/login');
-        }
-    }, [id, navigate, fetchGiftDetails]);
-
-    const fetchGiftDetails = async (token) => {
+    const fetchGiftDetails = useCallback(async (token) => {
         setLoading(true);
         try {
             const response = await fetch(`${urlConfig.backendUrl}/api/gifts/${id}`, {
@@ -57,7 +48,16 @@ function DetailsPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [id, navigate]);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            fetchGiftDetails(token);
+        } else {
+            navigate('/login');
+        }
+    }, [fetchGiftDetails, navigate]);
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault();

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { urlConfig } from '../../config';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
@@ -12,16 +12,7 @@ export default function MainPage() {
     const [searchResult, setSearchResult] = useState(null);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            fetchGifts(token);
-        } else {
-            navigate('/login');
-        }
-    }, [navigate, fetchGifts]);
-
-    const fetchGifts = async (token) => {
+    const fetchGifts = useCallback(async (token) => {
         setIsLoading(true);
         try {
             const response = await fetch(`${urlConfig.backendUrl}/api/gifts`, {
@@ -45,7 +36,16 @@ export default function MainPage() {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [navigate]);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            fetchGifts(token);
+        } else {
+            navigate('/login');
+        }
+    }, [fetchGifts, navigate]);
 
     const handleSearch = async (e) => {
         e.preventDefault();
